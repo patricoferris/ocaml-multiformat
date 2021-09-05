@@ -57,13 +57,22 @@ let encodings =
       };
     ] )
 
-let test_encode v m () =
+let test_encode_and_decode v m () =
   let h = M.digest ~ident:m.M.ident v in
-  Alcotest.(check (result multihash err)) "same encoding" (Ok m) h
+  Alcotest.(check (result multihash err)) "same encoding" (Ok m) h;
+  let buff = M.to_cstruct (Result.get_ok h) in
+  let h = M.of_cstruct buff in
+  Alcotest.(check (result multihash err)) "same decoding" (Ok m) h
 
 let tests =
   let v, encodings = encodings in
   let encoding =
-    List.map (fun c -> (Fmt.str "encoding_%s" (Multihash.Identifier.to_string c.M.ident), `Quick, test_encode v c)) encodings
+    List.map
+      (fun c ->
+        ( Fmt.str "encoding_decoding_%s"
+            (Multihash.Identifier.to_string c.M.ident),
+          `Quick,
+          test_encode_and_decode v c ))
+      encodings
   in
   encoding

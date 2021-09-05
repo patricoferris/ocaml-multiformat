@@ -40,7 +40,7 @@ let test_encode i expect () =
   Alcotest.(check cstruct) "same cstruct" expect encoding
 
 let test_decode cstruct expect () =
-  let decoding = Uvarint.decode cstruct in
+  let decoding, _ = Uvarint.decode cstruct in
   Alcotest.(check int) "same int" expect decoding
 
 let tests =

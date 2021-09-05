@@ -26,14 +26,16 @@ let decode buff =
   let x = ref 0 in
   let s = ref 0 in
   let rec loop i =
-    if i >= max_varint_len_64 then !x
+    if i >= max_varint_len_64 then (!x, i)
     else
       let b = Cstruct.get_uint8 buff i in
       if b < 0x80 then
-        if i == max_varint_len_64 - 1 && b > 1 then !x else !x lor (b lsl !s)
+        if i == max_varint_len_64 - 1 && b > 1 then (!x, i)
+        else (!x lor (b lsl !s), i)
       else (
         x := !x lor ((b land 0x7f) lsl !s);
         s := !s + 7;
         loop (i + 1))
   in
-  loop 0
+  let r, i = loop 0 in
+  (r, i + 1)

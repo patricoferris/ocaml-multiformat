@@ -1,0 +1,4 @@
+(mdx
+ (files README.md)
+ (packages multihash-digestif)
+ (preludes ./doc/prelude.ml))

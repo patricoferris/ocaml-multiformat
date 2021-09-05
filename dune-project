@@ -29,3 +29,4 @@
   (alcotest :with-test)
   (multihash (= :version))
   digestif))
+(using mdx 0.1)
