@@ -22,10 +22,8 @@ This example is [taken from the appendix of the website](https://multiformats.io
 module Md = Multihash_digestif
 # let s = "Merkle–Damgård"
 val s : string = "Merkle–Damgård"
-# let v = Md.digest ~ident:`Sha2_256 s |> Result.get_ok
-val v : Md.t =
-  {Md.ident = `Sha2_256; length = 32;
-   digest = {Cstruct.buffer = <abstr>; off = 0; len = 32}}
+# let v = Md.v ~ident:`Sha2_256 s |> Result.get_ok
+val v : Md.t = <abstr>
 ```
 
 Having now digested the data, it can be converted to the full sequence of bytes.
@@ -43,12 +41,10 @@ And of course the hash function used and the length are recoverable from the dat
 
 ```ocaml
 # let v = Md.of_cstruct data |> Result.get_ok
-val v : Md.t =
-  {Md.ident = `Sha2_256; length = 32;
-   digest = {Cstruct.buffer = <abstr>; off = 2; len = 32}}
+val v : Md.t = <abstr>
 # let (ident, length, digest) = 
-  let ident = Multihash.Identifier.to_string v.ident in
-  (ident, v.length, v.digest)
+  let ident = Multihash.Identifier.to_string (Md.get_ident v) in
+  (ident, Md.get_length v, Md.get_digest v)
 val ident : string = "sha2-256"
 val length : int = 32
 val digest : Cstruct.t = {Cstruct.buffer = <abstr>; off = 2; len = 32}
