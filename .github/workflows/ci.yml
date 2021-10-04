@@ -1,9 +1,5 @@
 name: OCaml-CI
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 jobs:
   macos_and_windows:
     strategy:
@@ -17,9 +13,11 @@ jobs:
       with:
         ocaml-version: ${{ matrix.ocaml-version }}
     - name: Pinning Package
-      run: opam pin add -yn sctp.dev './'
+      run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
+        './'
     - name: Packages
-      run: opam depext -yt sctp.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
     - name: Dependencies
       run: opam install -t -y . --deps-only
     - name: Building, Installing and Testing
@@ -27,7 +25,7 @@ jobs:
   debian_10_buster:
     runs-on: ubuntu-latest
     container:
-      image: ocaml/opam@sha256:3e59603a8254fb9ea3df6ba2448153bfa25df909bd3b105033e215e93bf54c28
+      image: ocaml/opam@sha256:b92c270713f56b42b060dd88b6e33480e942124965f0656b5781a56e469b577d
       env:
         HOME: /home/opam
       options: --user 1000
@@ -37,18 +35,20 @@ jobs:
       run:
         working-directory: /home/opam
     steps:
-    - run: cd ~/opam-repository && (git cat-file -e f8dfc4e2b32067697b4602ddb80339665e6bf8c9
-        || git fetch origin master) && git reset -q --hard f8dfc4e2b32067697b4602ddb80339665e6bf8c9
+    - run: cd ~/opam-repository && (git cat-file -e 37ac8ae226969d6a789f1e5eb7e3dfdf2ec9a95a
+        || git fetch origin master) && git reset -q --hard 37ac8ae226969d6a789f1e5eb7e3dfdf2ec9a95a
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://${{ secrets.GithubToken }}@github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
-      run: opam pin add -yn sctp.dev './'
+      run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
+        './'
       working-directory: /home/opam/package
     - name: Installing external dependencies
-      run: opam depext -yt sctp.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
       working-directory: /home/opam/package
     - name: Installing dependencies
       run: opam install -t -y . --deps-only
@@ -69,18 +69,20 @@ jobs:
       run:
         working-directory: /home/opam
     steps:
-    - run: cd ~/opam-repository && (git cat-file -e f8dfc4e2b32067697b4602ddb80339665e6bf8c9
-        || git fetch origin master) && git reset -q --hard f8dfc4e2b32067697b4602ddb80339665e6bf8c9
+    - run: cd ~/opam-repository && (git cat-file -e 37ac8ae226969d6a789f1e5eb7e3dfdf2ec9a95a
+        || git fetch origin master) && git reset -q --hard 37ac8ae226969d6a789f1e5eb7e3dfdf2ec9a95a
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://${{ secrets.GithubToken }}@github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
-      run: opam pin add -yn sctp.dev './'
+      run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
+        './'
       working-directory: /home/opam/package
     - name: Installing external dependencies
-      run: opam depext -yt sctp.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
       working-directory: /home/opam/package
     - name: Installing dependencies
       run: opam install -t -y . --deps-only
@@ -91,7 +93,7 @@ jobs:
   ubuntu_20_04:
     runs-on: ubuntu-latest
     container:
-      image: ocaml/opam@sha256:9c63a9ee673626c2f7762b99864a701654c9d910e843acbfb0cf3789728114f9
+      image: ocaml/opam@sha256:757706e8bf2d947ff24f097c8ce34fa6b00e652618211cfbf5c86ce18b7ea408
       env:
         HOME: /home/opam
       options: --user 1000
@@ -101,18 +103,20 @@ jobs:
       run:
         working-directory: /home/opam
     steps:
-    - run: cd ~/opam-repository && (git cat-file -e f8dfc4e2b32067697b4602ddb80339665e6bf8c9
-        || git fetch origin master) && git reset -q --hard f8dfc4e2b32067697b4602ddb80339665e6bf8c9
+    - run: cd ~/opam-repository && (git cat-file -e 37ac8ae226969d6a789f1e5eb7e3dfdf2ec9a95a
+        || git fetch origin master) && git reset -q --hard 37ac8ae226969d6a789f1e5eb7e3dfdf2ec9a95a
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://${{ secrets.GithubToken }}@github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
-      run: opam pin add -yn sctp.dev './'
+      run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
+        './'
       working-directory: /home/opam/package
     - name: Installing external dependencies
-      run: opam depext -yt sctp.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
       working-directory: /home/opam/package
     - name: Installing dependencies
       run: opam install -t -y . --deps-only
@@ -123,7 +127,7 @@ jobs:
   ubuntu_18_04:
     runs-on: ubuntu-latest
     container:
-      image: ocaml/opam@sha256:c5dc6f1cbe231671369c97bb3064158117c78be1e5f1b530fe8d65878175f2a7
+      image: ocaml/opam@sha256:ebacfc4d2dbc3c6cb5b9bcc14e24297881f1d33db8b2b2d080e2d0839dab4561
       env:
         HOME: /home/opam
       options: --user 1000
@@ -133,18 +137,20 @@ jobs:
       run:
         working-directory: /home/opam
     steps:
-    - run: cd ~/opam-repository && (git cat-file -e f8dfc4e2b32067697b4602ddb80339665e6bf8c9
-        || git fetch origin master) && git reset -q --hard f8dfc4e2b32067697b4602ddb80339665e6bf8c9
+    - run: cd ~/opam-repository && (git cat-file -e 37ac8ae226969d6a789f1e5eb7e3dfdf2ec9a95a
+        || git fetch origin master) && git reset -q --hard 37ac8ae226969d6a789f1e5eb7e3dfdf2ec9a95a
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://${{ secrets.GithubToken }}@github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
-      run: opam pin add -yn sctp.dev './'
+      run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
+        './'
       working-directory: /home/opam/package
     - name: Installing external dependencies
-      run: opam depext -yt sctp.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
       working-directory: /home/opam/package
     - name: Installing dependencies
       run: opam install -t -y . --deps-only
@@ -165,18 +171,20 @@ jobs:
       run:
         working-directory: /home/opam
     steps:
-    - run: cd ~/opam-repository && (git cat-file -e f8dfc4e2b32067697b4602ddb80339665e6bf8c9
-        || git fetch origin master) && git reset -q --hard f8dfc4e2b32067697b4602ddb80339665e6bf8c9
+    - run: cd ~/opam-repository && (git cat-file -e 37ac8ae226969d6a789f1e5eb7e3dfdf2ec9a95a
+        || git fetch origin master) && git reset -q --hard 37ac8ae226969d6a789f1e5eb7e3dfdf2ec9a95a
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://${{ secrets.GithubToken }}@github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
-      run: opam pin add -yn sctp.dev './'
+      run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
+        './'
       working-directory: /home/opam/package
     - name: Installing external dependencies
-      run: opam depext -yt sctp.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
       working-directory: /home/opam/package
     - name: Installing dependencies
       run: opam install -t -y . --deps-only
@@ -187,7 +195,7 @@ jobs:
   centos_8:
     runs-on: ubuntu-latest
     container:
-      image: ocaml/opam@sha256:84e7358cb38f6e13fecf831b28aeb6a2660f3ed0362ed45895bdb55b0c2de391
+      image: ocaml/opam@sha256:30d82620d220a6b9bf5d662fddbbdf487a4f43cf68d39f6442abbdf3e505a577
       env:
         HOME: /home/opam
       options: --user 1000
@@ -197,18 +205,20 @@ jobs:
       run:
         working-directory: /home/opam
     steps:
-    - run: cd ~/opam-repository && (git cat-file -e f8dfc4e2b32067697b4602ddb80339665e6bf8c9
-        || git fetch origin master) && git reset -q --hard f8dfc4e2b32067697b4602ddb80339665e6bf8c9
+    - run: cd ~/opam-repository && (git cat-file -e 37ac8ae226969d6a789f1e5eb7e3dfdf2ec9a95a
+        || git fetch origin master) && git reset -q --hard 37ac8ae226969d6a789f1e5eb7e3dfdf2ec9a95a
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://${{ secrets.GithubToken }}@github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
-      run: opam pin add -yn sctp.dev './'
+      run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
+        './'
       working-directory: /home/opam/package
     - name: Installing external dependencies
-      run: opam depext -yt sctp.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
       working-directory: /home/opam/package
     - name: Installing dependencies
       run: opam install -t -y . --deps-only
@@ -216,10 +226,10 @@ jobs:
     - name: Building, installing & testing
       run: opam exec -- dune build @install @runtest
       working-directory: /home/opam/package
-  fedora_33:
+  fedora_32:
     runs-on: ubuntu-latest
     container:
-      image: ocaml/opam:fedora-33-ocaml-4.12
+      image: ocaml/opam@sha256:3f0a841d797b0f980129c4f6830ab3c80c28450ed2a7c62746d3383dcbe29d32
       env:
         HOME: /home/opam
       options: --user 1000
@@ -229,18 +239,20 @@ jobs:
       run:
         working-directory: /home/opam
     steps:
-    - run: cd ~/opam-repository && (git cat-file -e f8dfc4e2b32067697b4602ddb80339665e6bf8c9
-        || git fetch origin master) && git reset -q --hard f8dfc4e2b32067697b4602ddb80339665e6bf8c9
+    - run: cd ~/opam-repository && (git cat-file -e 37ac8ae226969d6a789f1e5eb7e3dfdf2ec9a95a
+        || git fetch origin master) && git reset -q --hard 37ac8ae226969d6a789f1e5eb7e3dfdf2ec9a95a
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://${{ secrets.GithubToken }}@github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
-      run: opam pin add -yn sctp.dev './'
+      run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
+        './'
       working-directory: /home/opam/package
     - name: Installing external dependencies
-      run: opam depext -yt sctp.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
       working-directory: /home/opam/package
     - name: Installing dependencies
       run: opam install -t -y . --deps-only
