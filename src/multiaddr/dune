@@ -1,0 +1,4 @@
+(library
+ (name multiaddr)
+ (public_name multiaddr)
+ (libraries uvarint ipaddr fmt))
