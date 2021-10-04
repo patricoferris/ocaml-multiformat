@@ -11,6 +11,7 @@ bug-reports: "https://github.com/patricoferris/multiformat/issues"
 depends: [
   "dune" {>= "2.9"}
   "alcotest" {with-test}
+  "mdx" {with-test}
   "cstruct"
   "odoc" {with-doc}
 ]

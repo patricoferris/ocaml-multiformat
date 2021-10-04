@@ -27,6 +27,7 @@
  (description "This library provides self-describing hash functions without any implementation")
  (depends
   (alcotest :with-test)
+  ipaddr
   cstruct))
 
 (package
@@ -35,6 +36,7 @@
  (description "This library provides self-describing hash functions without any implementation")
  (depends
   (alcotest :with-test)
+  (mdx :with-test)
   cstruct))
 
 (package

@@ -1436,7 +1436,7 @@ module Make (H : S.Hasher) = struct
   let v ~ident v =
     Result.map
       (fun digest ->
-        let length = Cstruct.len digest in
+        let length = Cstruct.length digest in
         { ident; length; digest })
       (H.digest ident v)
 
@@ -1456,7 +1456,7 @@ module Make (H : S.Hasher) = struct
 
   let of_cstruct buff =
     let ( >>= ) v f = Result.map f v in
-    let l = Cstruct.len buff in
+    let l = Cstruct.length buff in
     let ident, len = Uvarint.decode buff in
     let length, len' = Uvarint.decode (Cstruct.sub buff len (l - len)) in
     Identifier.of_int ident >>= fun ident ->
