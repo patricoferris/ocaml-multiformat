@@ -1,0 +1,4 @@
+(library
+ (name uvarint)
+ (public_name uvarint)
+ (libraries cstruct))
