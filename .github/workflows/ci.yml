@@ -14,10 +14,11 @@ jobs:
         ocaml-version: ${{ matrix.ocaml-version }}
     - name: Pinning Package
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
-        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
-        './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multicodec.dev
+        './' && opam pin add -yn multiaddr.dev './'
     - name: Packages
-      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multicodec.dev
+        multiaddr.dev
     - name: Dependencies
       run: opam install -t -y . --deps-only
     - name: Building, Installing and Testing
@@ -44,11 +45,12 @@ jobs:
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
-        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
-        './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multicodec.dev
+        './' && opam pin add -yn multiaddr.dev './'
       working-directory: /home/opam/package
     - name: Installing external dependencies
-      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multicodec.dev
+        multiaddr.dev
       working-directory: /home/opam/package
     - name: Installing dependencies
       run: opam install -t -y . --deps-only
@@ -78,11 +80,12 @@ jobs:
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
-        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
-        './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multicodec.dev
+        './' && opam pin add -yn multiaddr.dev './'
       working-directory: /home/opam/package
     - name: Installing external dependencies
-      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multicodec.dev
+        multiaddr.dev
       working-directory: /home/opam/package
     - name: Installing dependencies
       run: opam install -t -y . --deps-only
@@ -112,11 +115,12 @@ jobs:
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
-        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
-        './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multicodec.dev
+        './' && opam pin add -yn multiaddr.dev './'
       working-directory: /home/opam/package
     - name: Installing external dependencies
-      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multicodec.dev
+        multiaddr.dev
       working-directory: /home/opam/package
     - name: Installing dependencies
       run: opam install -t -y . --deps-only
@@ -146,11 +150,12 @@ jobs:
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
-        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
-        './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multicodec.dev
+        './' && opam pin add -yn multiaddr.dev './'
       working-directory: /home/opam/package
     - name: Installing external dependencies
-      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multicodec.dev
+        multiaddr.dev
       working-directory: /home/opam/package
     - name: Installing dependencies
       run: opam install -t -y . --deps-only
@@ -180,11 +185,12 @@ jobs:
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
-        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
-        './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multicodec.dev
+        './' && opam pin add -yn multiaddr.dev './'
       working-directory: /home/opam/package
     - name: Installing external dependencies
-      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multicodec.dev
+        multiaddr.dev
       working-directory: /home/opam/package
     - name: Installing dependencies
       run: opam install -t -y . --deps-only
@@ -214,11 +220,12 @@ jobs:
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
-        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
-        './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multicodec.dev
+        './' && opam pin add -yn multiaddr.dev './'
       working-directory: /home/opam/package
     - name: Installing external dependencies
-      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multicodec.dev
+        multiaddr.dev
       working-directory: /home/opam/package
     - name: Installing dependencies
       run: opam install -t -y . --deps-only
@@ -248,11 +255,12 @@ jobs:
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
-        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multiaddr.dev
-        './'
+        && opam pin add -yn multihash-digestif.dev './' && opam pin add -yn multicodec.dev
+        './' && opam pin add -yn multiaddr.dev './'
       working-directory: /home/opam/package
     - name: Installing external dependencies
-      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multiaddr.dev
+      run: opam depext -yt uvarint.dev multihash.dev multihash-digestif.dev multicodec.dev
+        multiaddr.dev
       working-directory: /home/opam/package
     - name: Installing dependencies
       run: opam install -t -y . --deps-only
