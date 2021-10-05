@@ -1,4 +1,4 @@
 (library
  (name multihash)
  (public_name multihash)
- (libraries cstruct uvarint fmt))
+ (libraries cstruct uvarint fmt multicodec))
