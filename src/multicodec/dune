@@ -1,0 +1,26 @@
+;  Uncomment to generate multicodec then reformat
+
+; (executable
+;  (name gen)
+;  (modules gen)
+;  (libraries fmt))
+
+; (rule
+;  (deps
+;   gen.exe
+;   (file vendor/multicodec/table.csv))
+;  (targets multicodec.ml multicodec.mli)
+;  (mode promote)
+;  (action
+;   (progn
+;    (with-stdout-to
+;     multicodec.ml
+;     (run ./gen.exe ml))
+;    (with-stdout-to
+;     multicodec.mli
+;     (run ./gen.exe mli)))))
+
+(library
+ (name multicodec)
+ (modules multicodec)
+ (public_name multicodec))

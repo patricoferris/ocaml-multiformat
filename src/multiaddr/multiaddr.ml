@@ -3,130 +3,31 @@ let ( <+> ) = Cstruct.append
 let ( >>= ) v f = Result.bind v f
 
 module Proto = struct
-  type t =
-    [ `Ipv4
-    | `Tcp
-    | `Udp
-    | `Dccp
-    | `Ipv6
-    | `Ipv6_Zone
-    | `Dns
-    | `Dns4
-    | `Dns6
-    | `Dnsaddr
-    | `Sctp
-    | `Udt
-    | `Utp
-    | `Unix
-    | `P2P
-    | `Ipfs
-    | `Onion
-    | `Onion3
-    | `Garlic64
-    | `Garlic32
-    | `Tls
-    | `Noise
-    | `Quic
-    | `Http
-    | `Https
-    | `Ws
-    | `Wss
-    | `P2P_websocket_star
-    | `P2P_stardust
-    | `P2P_webrtc_star
-    | `P2P_webrtc_direct
-    | `P2P_circuit
-    | `Memory ]
+  type t = Multicodec.multiaddr
 
-  let to_int = function
-    | `Ipv4 -> 4
-    | `Tcp -> 6
-    | `Udp -> 273
-    | `Dccp -> 33
-    | `Ipv6 -> 41
-    | `Ipv6_Zone -> 42
-    | `Dns -> 53
-    | `Dns4 -> 54
-    | `Dns6 -> 55
-    | `Dnsaddr -> 56
-    | `Sctp -> 132
-    | `Udt -> 301
-    | `Utp -> 302
-    | `Unix -> 400
-    | `P2P -> 421
-    | `Ipfs -> 421
-    | `Onion -> 444
-    | `Onion3 -> 445
-    | `Garlic64 -> 446
-    | `Garlic32 -> 447
-    | `Tls -> 448
-    | `Noise -> 454
-    | `Quic -> 460
-    | `Http -> 480
-    | `Https -> 443
-    | `Ws -> 477
-    | `Wss -> 478
-    | `P2P_websocket_star -> 479
-    | `P2P_stardust -> 277
-    | `P2P_webrtc_star -> 275
-    | `P2P_webrtc_direct -> 276
-    | `P2P_circuit -> 280
-    | `Memory -> 777
+  let to_int = Multicodec.multiaddr_to_code
 
-  let of_int_exn = function
-    | 4 -> `Ipv4
-    | 6 -> `Tcp
-    | 273 -> `Udp
-    | 33 -> `Dccp
-    | 41 -> `Ipv6
-    | 42 -> `Ipv6_Zone
-    | 53 -> `Dns
-    | 54 -> `Dns4
-    | 55 -> `Dns6
-    | 56 -> `Dnsaddr
-    | 132 -> `Sctp
-    | 301 -> `Udt
-    | 302 -> `Utp
-    | 400 -> `Unix
-    | 421 -> `P2P
-    (* | 421 -> `Ipfs ... p2p is preferred apparently *)
-    | 444 -> `Onion
-    | 445 -> `Onion3
-    | 446 -> `Garlic64
-    | 447 -> `Garlic32
-    | 448 -> `Tls
-    | 454 -> `Noise
-    | 460 -> `Quic
-    | 480 -> `Http
-    | 443 -> `Https
-    | 477 -> `Ws
-    | 478 -> `Wss
-    | 479 -> `P2P_websocket_star
-    | 277 -> `P2P_stardust
-    | 275 -> `P2P_webrtc_star
-    | 276 -> `P2P_webrtc_direct
-    | 280 -> `P2P_circuit
-    | 777 -> `Memory
-    | s -> raise (Invalid_argument (string_of_int s))
+  let of_int_exn t = Multicodec.multiaddr_of_code t |> Option.get
+
+  let of_int s =
+    try Ok (of_int_exn s)
+    with Invalid_argument s -> Error (`Msg ("Unknown proto: " ^ s))
 
   let transcoder (t : t) : Transcoder.t =
     match t with
-    | `Ipv4 -> Transcoder.ipv4
+    | `Ip4 -> Transcoder.ipv4
     | `Udp | `Tcp -> Transcoder.port
     | _ -> Transcoder.identity
 
-  let of_int i =
-    try Ok (of_int_exn i) with Invalid_argument s -> Error (`Msg s)
-
   type size = Int of int | Variable
 
-  let size = function
-    | `Ipv4 -> Int 32
+  let size : t -> size = function
+    | `Ip4 -> Int 32
     | `Tcp -> Int 16
     | `Udp -> Int 16
     | `Dccp -> Int 16
-    | `Ipv6 -> Int 128
-    | `Ipv6_Zone -> Variable
+    | `Ip6 -> Int 128
+    | `Ip6zone -> Variable
     | `Dns -> Variable
     | `Dns4 -> Variable
     | `Dns6 -> Variable
@@ -135,8 +36,7 @@ module Proto = struct
     | `Udt -> Int 0
     | `Utp -> Int 0
     | `Unix -> Variable
-    | `P2P -> Variable
-    | `Ipfs -> Variable
+    | `P2p -> Variable
     | `Onion -> Int 96
     | `Onion3 -> Int 296
     | `Garlic64 -> Variable
@@ -148,83 +48,17 @@ module Proto = struct
     | `Https -> Int 0
     | `Ws -> Int 0
     | `Wss -> Int 0
-    | `P2P_websocket_star -> Int 0
-    | `P2P_stardust -> Int 0
-    | `P2P_webrtc_star -> Int 0
-    | `P2P_webrtc_direct -> Int 0
-    | `P2P_circuit -> Int 0
-    | `Memory -> Variable
+    | `P2p_websocket_star -> Int 0
+    | `P2p_stardust -> Int 0
+    | `P2p_webrtc_star -> Int 0
+    | `P2p_webrtc_direct -> Int 0
+    | `P2p_circuit -> Int 0
+    | _ -> Variable
+  (* Check *)
 
-  let to_string = function
-    | `Ipv4 -> "ip4"
-    | `Tcp -> "tcp"
-    | `Udp -> "udp"
-    | `Dccp -> "dccp"
-    | `Ipv6 -> "ip6"
-    | `Ipv6_Zone -> "ip6zone"
-    | `Dns -> "dns"
-    | `Dns4 -> "dns4"
-    | `Dns6 -> "dns6"
-    | `Dnsaddr -> "dnsaddr"
-    | `Sctp -> "sctp"
-    | `Udt -> "udt"
-    | `Utp -> "utp"
-    | `Unix -> "unix"
-    | `P2P -> "p2p"
-    | `Ipfs -> "ipfs"
-    | `Onion -> "onion"
-    | `Onion3 -> "onion3"
-    | `Garlic64 -> "garlic64"
-    | `Garlic32 -> "garlic32"
-    | `Tls -> "tls"
-    | `Noise -> "noise"
-    | `Quic -> "quic"
-    | `Http -> "http"
-    | `Https -> "https"
-    | `Ws -> "ws"
-    | `Wss -> "wss"
-    | `P2P_websocket_star -> "p2p-websocket-star"
-    | `P2P_stardust -> "p2p-stardust"
-    | `P2P_webrtc_star -> "p2p-webrtc-star"
-    | `P2P_webrtc_direct -> "p2p-webrtc-direct"
-    | `P2P_circuit -> "p2p-circuit"
-    | `Memory -> "memory"
+  let to_string = Multicodec.multiaddr_to_string
 
-  let of_string_exn = function
-    | "ip4" -> `Ipv4
-    | "tcp" -> `Tcp
-    | "udp" -> `Udp
-    | "dccp" -> `Dccp
-    | "ip6" -> `Ipv6
-    | "ip6zone" -> `Ipv6_Zone
-    | "dns" -> `Dns
-    | "dns4" -> `Dns4
-    | "dns6" -> `Dns6
-    | "dnsaddr" -> `Dnsaddr
-    | "sctp" -> `Sctp
-    | "udt" -> `Udt
-    | "utp" -> `Utp
-    | "unix" -> `Unix
-    | "p2p" -> `P2P
-    | "ipfs" -> `Ipfs
-    | "onion" -> `Onion
-    | "onion3" -> `Onion3
-    | "garlic64" -> `Garlic64
-    | "garlic32" -> `Garlic32
-    | "tls" -> `Tls
-    | "noise" -> `Noise
-    | "quic" -> `Quic
-    | "http" -> `Http
-    | "https" -> `Https
-    | "ws" -> `Ws
-    | "wss" -> `Wss
-    | "p2p-websocket-star" -> `P2P_websocket_star
-    | "p2p-stardust" -> `P2P_stardust
-    | "p2p-webrtc-star" -> `P2P_webrtc_star
-    | "p2p-webrtc-direct" -> `P2P_webrtc_direct
-    | "p2p-circuit" -> `P2P_circuit
-    | "memory" -> `Memory
-    | s -> raise (Invalid_argument s)
+  let of_string_exn t = Multicodec.multiaddr_of_string t |> Option.get
 
   let of_string s =
     try Ok (of_string_exn s)

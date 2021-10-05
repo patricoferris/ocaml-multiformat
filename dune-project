@@ -22,11 +22,18 @@
   cstruct))
 
 (package
+ (name multicodec)
+ (synopsis "Self-describing Hash Functions")
+ (description "This library provides self-describing hash functions without any implementation")
+ (depends))
+
+(package
  (name multiaddr)
  (synopsis "Self-describing Hash Functions")
  (description "This library provides self-describing hash functions without any implementation")
  (depends
   (alcotest :with-test)
+  (multicodec (= :version))
   ipaddr
   cstruct))
 
@@ -37,6 +44,7 @@
  (depends
   (alcotest :with-test)
   (mdx :with-test)
+  (multicodec (= :version))
   cstruct))
 
 (package
@@ -47,6 +55,5 @@
   (alcotest :with-test)
   (multihash (= :version))
   digestif))
-
 
 (using mdx 0.1)

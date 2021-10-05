@@ -1,38 +1,5 @@
 module Proto : sig
-  type t =
-    [ `Ipv4
-    | `Tcp
-    | `Udp
-    | `Dccp
-    | `Ipv6
-    | `Ipv6_Zone
-    | `Dns
-    | `Dns4
-    | `Dns6
-    | `Dnsaddr
-    | `Sctp
-    | `Udt
-    | `Utp
-    | `Unix
-    | `P2P
-    | `Ipfs
-    | `Onion
-    | `Onion3
-    | `Garlic64
-    | `Garlic32
-    | `Tls
-    | `Noise
-    | `Quic
-    | `Http
-    | `Https
-    | `Ws
-    | `Wss
-    | `P2P_websocket_star
-    | `P2P_stardust
-    | `P2P_webrtc_star
-    | `P2P_webrtc_direct
-    | `P2P_circuit
-    | `Memory ]
+  type t = Multicodec.multiaddr
   (** Different protocols *)
 
   type size = Int of int | Variable
