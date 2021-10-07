@@ -9,6 +9,8 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: true
     - uses: ocaml/setup-ocaml@v2
       with:
         ocaml-version: ${{ matrix.ocaml-version }}
@@ -41,7 +43,7 @@ jobs:
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone --recursive https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
@@ -76,7 +78,7 @@ jobs:
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone --recursive https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
@@ -111,7 +113,7 @@ jobs:
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone --recursive https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
@@ -146,7 +148,7 @@ jobs:
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone --recursive https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
@@ -181,7 +183,7 @@ jobs:
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone --recursive https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
@@ -216,7 +218,7 @@ jobs:
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone --recursive https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
@@ -251,7 +253,7 @@ jobs:
         && git log --no-decorate -n1 --oneline && opam update -u
     - run: mkdir -p /home/opam/package
     - name: Cloning
-      run: git clone https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
+      run: git clone --recursive https://github.com/$GITHUB_REPOSITORY . && git checkout $GITHUB_SHA
       working-directory: /home/opam/package
     - name: Pinning Packages
       run: opam pin add -yn uvarint.dev './' && opam pin add -yn multihash.dev './'
