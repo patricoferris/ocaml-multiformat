@@ -28,6 +28,13 @@
  (depends))
 
 (package
+ (name multibase)
+ (synopsis "Self-describing Base Encodings")
+ (description "This library provides self-describing hash functions without any implementation")
+ (depends
+  base64))
+
+(package
  (name multiaddr)
  (synopsis "Self-describing Hash Functions")
  (description "This library provides self-describing hash functions without any implementation")
