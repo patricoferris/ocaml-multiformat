@@ -22,20 +22,20 @@ By storing this extra metadata alongside the hash, multihash offers a potentiall
 This example is [taken from the appendix of the website](https://multiformats.io/multihash/#sha2-256-256-bits-aka-sha256).
 
 ```ocaml
-# module Md = Multihash_digestif
+# module Md = Multihash_digestif;;
 module Md = Multihash_digestif
-# let s = "Merkle–Damgård"
+# let s = "Merkle–Damgård";;
 val s : string = "Merkle–Damgård"
-# let v = Md.v ~ident:`Sha2_256 s |> Result.get_ok
+# let v = Md.v ~ident:`Sha2_256 s |> Result.get_ok;;
 val v : Md.t = <abstr>
 ```
 
 Having now digested the data, it can be converted to the full sequence of bytes.
 
 ```ocaml
-# let data = Md.to_cstruct v 
+# let data = Md.to_cstruct v ;;
 val data : Cstruct.t = {Cstruct.buffer = <abstr>; off = 0; len = 34}
-# let () = hexdump data
+# let () = hexdump data;;
 12 20 41 dd 7b 64 43 54  2e 75 70 1a a9 8a 0c 23
 59 51 a2 8a 0d 85 1b 11  56 4d 20 02 2a b1 1d 25
 89 a8
@@ -44,15 +44,15 @@ val data : Cstruct.t = {Cstruct.buffer = <abstr>; off = 0; len = 34}
 And of course the hash function used and the length are recoverable from the data.
 
 ```ocaml
-# let v = Md.of_cstruct data |> Result.get_ok
+# let v = Md.of_cstruct data |> Result.get_ok;;
 val v : Md.t = <abstr>
 # let (ident, length, digest) = 
   let ident = Multihash.Identifier.to_string (Md.get_ident v) in
-  (ident, Md.get_length v, Md.get_digest v)
+  (ident, Md.get_length v, Md.get_digest v);;
 val ident : string = "sha2-256"
 val length : int = 32
 val digest : Cstruct.t = {Cstruct.buffer = <abstr>; off = 2; len = 32}
-# let () = hexdump digest
+# let () = hexdump digest;;
 41 dd 7b 64 43 54 2e 75  70 1a a9 8a 0c 23 59 51
 a2 8a 0d 85 1b 11 56 4d  20 02 2a b1 1d 25 89 a8
 ```
@@ -66,15 +66,15 @@ The core of this library is functorised over the `Multihash.S.Hasher` module typ
 Multiaddrs allow for the encoding of well-established network protocols.
 
 ```ocaml
-# let addr = "/ip4/127.0.0.1/udp/1234"
+# let addr = "/ip4/127.0.0.1/udp/1234";;
 val addr : string = "/ip4/127.0.0.1/udp/1234"
-# let t = Multiaddr.of_string addr |> get_ok
+# let t = Multiaddr.of_string addr |> get_ok;;
 val t : Multiaddr.t = <abstr>
-# let s = Multiaddr.to_string t
+# let s = Multiaddr.to_string t;;
 val s : string = "/ip4/127.0.0.1/udp/1234"
-# let c = Multiaddr.to_cstruct t
+# let c = Multiaddr.to_cstruct t;;
 val c : Cstruct.t = {Cstruct.buffer = <abstr>; off = 0; len = 9}
-# Cstruct.hexdump c
+# Cstruct.hexdump c;;
 04 7f 00 00 01 91 02 04  d2
 - : unit = ()
 ```
@@ -82,14 +82,14 @@ val c : Cstruct.t = {Cstruct.buffer = <abstr>; off = 0; len = 9}
 It also supports encapsulating and decapsulating `Multiaddr.t`.
 
 ```ocaml
-# let addr = Multiaddr.of_string_exn "/ip4/127.0.0.1/udp/1234"
+# let addr = Multiaddr.of_string_exn "/ip4/127.0.0.1/udp/1234";;
 val addr : Multiaddr.t = <abstr>
-# let addr = Multiaddr.(encapsulate addr @@ of_string_exn "/sctp/5678")
+# let addr = Multiaddr.(encapsulate addr @@ of_string_exn "/sctp/5678");;
 val addr : Multiaddr.t = <abstr>
-# Multiaddr.to_string addr
+# Multiaddr.to_string addr;;
 - : string = "/ip4/127.0.0.1/udp/1234/sctp/5678"
-# let addr = Multiaddr.(decapsulate addr @@ of_string_exn "/udp/1234")
+# let addr = Multiaddr.(decapsulate addr @@ of_string_exn "/udp/1234");;
 val addr : Multiaddr.t option = Some <abstr>
-# Multiaddr.to_string (Option.get addr)
+# Multiaddr.to_string (Option.get addr);;
 - : string = "/ip4/127.0.0.1"
 ```

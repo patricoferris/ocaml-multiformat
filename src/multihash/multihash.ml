@@ -60,7 +60,7 @@ module Make (H : S.Hasher) = struct
             length;
             digest = Cstruct.sub buff (len + len') (l - len - len');
           }
-    | None -> Error (`Msg "Unknown idenfitifer for multihash")
+    | None -> Error (`Msg ("Unknown idenfitifer for multihash: " ^ string_of_int ident))
 
   let pp ppf { ident; length; digest } =
     Fmt.pf ppf "ident(%i) length(%i) digest(%a)" (Identifier.to_int ident)

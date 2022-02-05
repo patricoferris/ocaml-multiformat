@@ -33,8 +33,8 @@ let decode_t t s =
 let encode t s = Result.map (fun v -> Encoding.to_code t ^ v) (encode_t t s)
 
 let decode s =
-  let e, rest = String.(make 1 @@ get s 0, sub s 1 (length s - 2)) in
+  let e, rest = String.(make 1 @@ get s 0, sub s 1 (length s - 1)) in
   match Encoding.of_code e with
   | Some t ->
-      Result.map (fun v -> (t, Encoding.to_code t ^ v)) (decode_t t rest)
+      Result.map (fun v -> (t, v)) (decode_t t rest)
   | None -> Error (`Msg "Unknown code")
