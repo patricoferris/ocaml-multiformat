@@ -63,7 +63,7 @@ module Make (H : S.Hasher) = struct
     | None -> Error (`Msg ("Unknown idenfitifer for multihash: " ^ string_of_int ident))
 
   let pp ppf { ident; length; digest } =
-    Fmt.pf ppf "ident(%i) length(%i) digest(%a)" (Identifier.to_int ident)
+    Fmt.pf ppf "ident(%s) length(%i) digest(%a)" (Identifier.to_string ident)
       length Cstruct.hexdump_pp digest
 
   let equal a b =
