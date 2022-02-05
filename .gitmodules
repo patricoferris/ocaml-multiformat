@@ -1,10 +1,6 @@
 [submodule "src/multicodec/vendor/multicodec"]
 	path = src/multicodec/vendor/multicodec
 	url = https://github.com/multiformats/multicodec
-[submodule "src/multibase/vendor/ocaml-base64"]
-	path = src/multibase/vendor/ocaml-base64
-	url = https://github.com/patricoferris/ocaml-base64
-	branch = base-n
 [submodule "src/multibase/vendor/multibase"]
 	path = src/multibase/vendor/multibase
 	url = https://github.com/multiformats/multibase

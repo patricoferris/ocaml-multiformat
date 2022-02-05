@@ -30,3 +30,6 @@ build: [
   ["dune" "install" "-p" name "--create-install-files" name]
 ]
 dev-repo: "git+https://github.com/patricoferris/multiformat.git"
+pin-depends: [
+  ["base64.dev" "git+https://github.com/patricoferris/ocaml-base64#base-n"]
+]
