@@ -1,3 +1,3 @@
 pin-depends: [
-  ["base64.dev" "git+https://github.com/patricoferris/ocaml-base64#base-n"]
+  ["base64.dev" "git+https://github.com/patricoferris/ocaml-base64#29e444d865a69ebdd0daaa4875a3a335be0fd7dd"]
 ]
