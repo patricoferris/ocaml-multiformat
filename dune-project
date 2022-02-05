@@ -52,7 +52,8 @@
   (alcotest :with-test)
   (mdx :with-test)
   (multicodec (= :version))
-  cstruct))
+  cstruct
+  fmt))
 
 (package
  (name multihash-digestif)
