@@ -4,13 +4,9 @@ module Identifier = struct
   type t = Multicodec.multihash
 
   let to_int = Multicodec.multihash_to_code
-
   let of_int = Multicodec.multihash_of_code
-
   let of_int_exn v = Multicodec.multihash_of_code v |> Option.get
-
   let to_string = Multicodec.multihash_to_string
-
   let is_deprecated = function `Md4 | `Md5 -> true | _ -> false
 end
 
@@ -19,7 +15,6 @@ type 'a res = ('a, [ `Unsupported | `Msg of string ]) result
 module S = struct
   module type Hasher = sig
     val digest : Identifier.t -> string -> Cstruct.t res
-
     val is_supported : Identifier.t -> bool
   end
 end
@@ -35,11 +30,8 @@ module Make (H : S.Hasher) = struct
       (H.digest ident v)
 
   let make ~ident ~length ~digest = { ident; length; digest }
-
   let get_ident { ident; _ } = ident
-
   let get_length { length; _ } = length
-
   let get_digest { digest; _ } = digest
 
   let to_cstruct { ident; length; digest } =
@@ -60,10 +52,13 @@ module Make (H : S.Hasher) = struct
             length;
             digest = Cstruct.sub buff (len + len') (l - len - len');
           }
-    | None -> Error (`Msg ("Unknown idenfitifer for multihash: " ^ string_of_int ident))
+    | None ->
+        Error
+          (`Msg ("Unknown idenfitifer for multihash: " ^ string_of_int ident))
 
   let pp ppf { ident; length; digest } =
-    Fmt.pf ppf "ident(%s) length(%i) digest(%a)" (Identifier.to_string ident)
+    Fmt.pf ppf "ident(%s) length(%i) digest(%a)"
+      (Identifier.to_string ident)
       length Cstruct.hexdump_pp digest
 
   let equal a b =

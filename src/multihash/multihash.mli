@@ -52,10 +52,7 @@ module Make : functor (H : S.Hasher) -> sig
   (** Accessor for the digest of this multihash *)
 
   val to_cstruct : t -> Cstruct.t
-
   val of_cstruct : Cstruct.t -> (t, [ `Msg of string ]) result
-
   val pp : t Fmt.t
-
   val equal : t -> t -> bool
 end

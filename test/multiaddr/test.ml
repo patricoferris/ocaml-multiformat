@@ -15,9 +15,7 @@
  *)
 
 let cstruct = Alcotest.testable Cstruct.hexdump_pp Cstruct.equal
-
 let multiaddr = Alcotest.testable Multiaddr.pp_human Multiaddr.equal
-
 let get_ok = function Ok v -> v | Error (`Msg m) -> failwith m
 
 let list_to_cstruct xs =
