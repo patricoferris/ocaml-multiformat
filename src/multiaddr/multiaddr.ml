@@ -1,12 +1,10 @@
 let ( <+> ) = Cstruct.append
-
 let ( >>= ) v f = Result.bind v f
 
 module Proto = struct
   type t = Multicodec.multiaddr
 
   let to_int = Multicodec.multiaddr_to_code
-
   let of_int_exn t = Multicodec.multiaddr_of_code t |> Option.get
 
   let of_int s =
@@ -57,7 +55,6 @@ module Proto = struct
   (* Check *)
 
   let to_string = Multicodec.multiaddr_to_string
-
   let of_string_exn t = Multicodec.multiaddr_of_string t |> Option.get
 
   let of_string s =
@@ -69,9 +66,7 @@ module Addr = struct
   type t = { is_transcoded : bool; proto : Proto.t; value : bytes }
 
   let v ?(is_transcoded = false) proto value = { is_transcoded; proto; value }
-
   let proto { proto; _ } = proto
-
   let value { value; _ } = value
 
   let convert proto value =
@@ -159,7 +154,6 @@ let rec fold_left f accu l =
   | Cons (m, ms) -> fold_left f (f accu m) ms
 
 let to_string = fold_left (fun acc m -> Addr.to_string m ^ acc) ""
-
 let to_list = fold_left (fun acc m -> m :: acc) []
 
 let rec of_list = function
@@ -171,9 +165,7 @@ let to_cstruct =
   fold_left (fun acc m -> Addr.to_cstruct m <+> acc) Cstruct.empty
 
 let pp_human ppf t = Fmt.pf ppf "%s" (to_string t)
-
 let pp_machine ppf t = Fmt.pf ppf "%a" Cstruct.hexdump_pp (to_cstruct t)
-
 let equal a b = String.equal (to_string a) (to_string b)
 
 let encapsulate t v =

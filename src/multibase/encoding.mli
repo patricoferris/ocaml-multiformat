@@ -25,9 +25,6 @@ type t =
   | `Proquint ]
 
 val to_code : t -> string
-
 val of_code : string -> t option
-
 val to_string : t -> string
-
 val of_string : string -> t option

@@ -1,10 +1,12 @@
 module Encoding = Encoding
 
 let base32_lower =
-  Base32.alphabet Base32.default_alphabet |> String.lowercase_ascii |> Base32.make_alphabet
+  Base32.alphabet Base32.default_alphabet
+  |> String.lowercase_ascii |> Base32.make_alphabet
 
 let base32_hex_lower =
-  Base32.alphabet Base32.default_alphabet |> String.lowercase_ascii |> Base32.make_alphabet
+  Base32.alphabet Base32.default_alphabet
+  |> String.lowercase_ascii |> Base32.make_alphabet
 
 let encode_t t s =
   match t with
@@ -45,6 +47,5 @@ let encode t s = Result.map (fun v -> Encoding.to_code t ^ v) (encode_t t s)
 let decode s =
   let e, rest = String.(make 1 @@ get s 0, sub s 1 (length s - 1)) in
   match Encoding.of_code e with
-  | Some t ->
-      Result.map (fun v -> (t, v)) (decode_t t rest)
+  | Some t -> Result.map (fun v -> (t, v)) (decode_t t rest)
   | None -> Error (`Msg "Unknown code")

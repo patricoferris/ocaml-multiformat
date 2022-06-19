@@ -1,7 +1,6 @@
 module M = Multihash_digestif
 
 let multihash = Alcotest.testable M.pp M.equal
-
 let msg ppf = function `Msg s -> Fmt.pf ppf "Error: %s" s
 
 let err =

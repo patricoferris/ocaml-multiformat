@@ -15,7 +15,6 @@
  *)
 
 let msg ppf = function `Msg s -> Fmt.pf ppf "Error: %s" s
-
 let msg = Alcotest.of_pp msg
 
 let test_encode input t output () =

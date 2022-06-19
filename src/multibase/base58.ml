@@ -35,7 +35,6 @@ end
 
 module Alphabet = struct
   exception Invalid
-
   exception Invalid_base58_character
 
   type t = string * int array
@@ -122,7 +121,6 @@ let decode ?(alphabet = default_alphabet) bin =
 type alphabet = Alphabet.t
 
 exception Invalid_alphabet = Alphabet.Invalid
-
 exception Invalid_base58_character = Alphabet.Invalid_base58_character
 
 let make_alphabet = Alphabet.make

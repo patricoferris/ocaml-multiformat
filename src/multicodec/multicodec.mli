@@ -507,97 +507,50 @@ type t =
   | zeroxcert ]
 
 val filecoin_to_code : filecoin -> int
-
 val holochain_to_code : holochain -> int
-
 val ipld_to_code : ipld -> int
-
 val key_to_code : key -> int
-
 val libp2p_to_code : libp2p -> int
-
 val multiaddr_to_code : multiaddr -> int
-
 val multiformat_to_code : multiformat -> int
-
 val multihash_to_code : multihash -> int
-
 val namespace_to_code : namespace -> int
-
 val serialization_to_code : serialization -> int
-
 val zeroxcert_to_code : zeroxcert -> int
-
 val to_code : t -> int
-
 val filecoin_of_code : int -> filecoin option
-
 val holochain_of_code : int -> holochain option
-
 val ipld_of_code : int -> ipld option
-
 val key_of_code : int -> key option
-
 val libp2p_of_code : int -> libp2p option
-
 val multiaddr_of_code : int -> multiaddr option
-
 val multiformat_of_code : int -> multiformat option
-
 val multihash_of_code : int -> multihash option
-
 val namespace_of_code : int -> namespace option
-
 val serialization_of_code : int -> serialization option
-
 val zeroxcert_of_code : int -> zeroxcert option
-
 val of_code : int -> t option
-
 val filecoin_to_string : filecoin -> string
-
 val holochain_to_string : holochain -> string
-
 val ipld_to_string : ipld -> string
-
 val key_to_string : key -> string
-
 val libp2p_to_string : libp2p -> string
-
 val multiaddr_to_string : multiaddr -> string
-
 val multiformat_to_string : multiformat -> string
-
 val multihash_to_string : multihash -> string
-
 val namespace_to_string : namespace -> string
-
 val serialization_to_string : serialization -> string
-
 val zeroxcert_to_string : zeroxcert -> string
-
 val to_string : t -> string
-
 val filecoin_of_string : string -> filecoin option
-
 val holochain_of_string : string -> holochain option
-
 val ipld_of_string : string -> ipld option
-
 val key_of_string : string -> key option
-
 val libp2p_of_string : string -> libp2p option
-
 val multiaddr_of_string : string -> multiaddr option
-
 val multiformat_of_string : string -> multiformat option
-
 val multihash_of_string : string -> multihash option
-
 val namespace_of_string : string -> namespace option
-
 val serialization_of_string : string -> serialization option
-
 val zeroxcert_of_string : string -> zeroxcert option
-
 val of_string : string -> t option
