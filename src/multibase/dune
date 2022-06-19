@@ -24,4 +24,4 @@
  (name multibase)
  (modules base58 multibase s encoding)
  (public_name multibase)
- (libraries base64 base64.base32))
+ (libraries base64 base32))

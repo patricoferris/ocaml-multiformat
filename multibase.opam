@@ -31,5 +31,5 @@ build: [
 ]
 dev-repo: "git+https://github.com/patricoferris/multiformat.git"
 pin-depends: [
-  ["base64.dev" "git+https://github.com/patricoferris/ocaml-base64#29e444d865a69ebdd0daaa4875a3a335be0fd7dd"]
+  ["base32.dev" "git+https://github.com/patricoferris/ocaml-base32"]
 ]
