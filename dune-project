@@ -32,7 +32,8 @@
  (synopsis "Self-describing Base Encodings")
  (description "This library provides self-describing hash functions without any implementation")
  (depends
-  base64))
+  base64
+  base32))
 
 (package
  (name multiaddr)
