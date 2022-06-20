@@ -25,7 +25,7 @@ type t =
   | `Proquint ]
 
 let to_code : t -> string = function
-  | `Identity -> "0x00"
+  | `Identity -> "\x00"
   | `Base2 -> "0"
   | `Base8 -> "7"
   | `Base10 -> "9"
@@ -51,7 +51,7 @@ let to_code : t -> string = function
   | `Proquint -> "p"
 
 let of_code : string -> t option = function
-  | "0x00" -> Some `Identity
+  | "\x00" -> Some `Identity
   | "0" -> Some `Base2
   | "7" -> Some `Base8
   | "9" -> Some `Base10

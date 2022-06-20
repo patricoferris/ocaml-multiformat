@@ -1,4 +1,7 @@
 module Encoding = Encoding
+module Base64 = Base64
+module Base58 = Base58
+module Base32 = Base32
 
 let base32_lower =
   Base32.alphabet Base32.default_alphabet
@@ -10,6 +13,7 @@ let base32_hex_lower =
 
 let encode_t t s =
   match t with
+  | `Identity -> Ok s
   | `Base32hexupper -> Base32.encode ~pad:false ~alphabet:Base32.extended_hex s
   | `Base32hex -> Base32.encode ~pad:false ~alphabet:base32_hex_lower s
   | `Base32hexpad -> Base32.encode ~pad:true ~alphabet:base32_hex_lower s
@@ -27,6 +31,7 @@ let encode_t t s =
 
 let decode_t t s =
   match t with
+  | `Identity -> Ok s
   | `Base32hexupper -> Base32.decode ~pad:false ~alphabet:Base32.extended_hex s
   | `Base32hex -> Base32.decode ~pad:false ~alphabet:base32_hex_lower s
   | `Base32hexpad -> Base32.decode ~pad:true ~alphabet:base32_hex_lower s
@@ -48,4 +53,6 @@ let decode s =
   let e, rest = String.(make 1 @@ get s 0, sub s 1 (length s - 1)) in
   match Encoding.of_code e with
   | Some t -> Result.map (fun v -> (t, v)) (decode_t t rest)
-  | None -> Error (`Msg "Unknown code")
+  | None ->
+      print_endline (string_of_bool ("\x01" = e));
+      Error (`Msg ("Unknown code for " ^ e ^ string_of_int @@ Char.code e.[0]))
