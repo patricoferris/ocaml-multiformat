@@ -14,8 +14,6 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-open Multihash
-
 let cstruct = Alcotest.testable Cstruct.hexdump_pp Cstruct.equal
 
 let list_to_cstruct xs =

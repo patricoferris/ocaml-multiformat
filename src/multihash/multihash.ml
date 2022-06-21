@@ -1,26 +1,7 @@
-module Uvarint = Uvarint
+include Multihash_intf
 
-module Identifier = struct
-  type t = Multicodec.multihash
-
-  let to_int = Multicodec.multihash_to_code
-  let of_int = Multicodec.multihash_of_code
-  let of_int_exn v = Multicodec.multihash_of_code v |> Option.get
-  let to_string = Multicodec.multihash_to_string
-  let is_deprecated = function `Md4 | `Md5 -> true | _ -> false
-end
-
-type 'a res = ('a, [ `Unsupported | `Msg of string ]) result
-
-module S = struct
-  module type Hasher = sig
-    val digest : Identifier.t -> string -> Cstruct.t res
-    val is_supported : Identifier.t -> bool
-  end
-end
-
-module Make (H : S.Hasher) = struct
-  type t = { ident : Identifier.t; length : int; digest : Cstruct.t }
+module Make (H : Hasher) = struct
+  type t = { ident : Multicodec.multihash; length : int; digest : Cstruct.t }
 
   let v ~ident v =
     Result.map
@@ -36,7 +17,7 @@ module Make (H : S.Hasher) = struct
 
   let to_cstruct { ident; length; digest } =
     let ( <+> ) = Cstruct.append in
-    let ident = Uvarint.encode (Identifier.to_int ident) in
+    let ident = Uvarint.encode (Multicodec.multihash_to_code ident) in
     let length = Uvarint.encode length in
     ident <+> length <+> digest
 
@@ -44,7 +25,7 @@ module Make (H : S.Hasher) = struct
     let l = Cstruct.length buff in
     let ident, len = Uvarint.decode buff in
     let length, len' = Uvarint.decode (Cstruct.sub buff len (l - len)) in
-    match Identifier.of_int ident with
+    match Multicodec.multihash_of_code ident with
     | Some ident ->
         Ok
           {
@@ -58,7 +39,7 @@ module Make (H : S.Hasher) = struct
 
   let pp ppf { ident; length; digest } =
     Fmt.pf ppf "ident(%s) length(%i) digest(%a)"
-      (Identifier.to_string ident)
+      (Multicodec.multihash_to_string ident)
       length Cstruct.hexdump_pp digest
 
   let equal a b =

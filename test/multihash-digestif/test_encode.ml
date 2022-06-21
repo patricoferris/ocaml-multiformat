@@ -47,7 +47,7 @@ let tests =
     List.map
       (fun c ->
         ( Fmt.str "encoding_decoding_%s"
-            (Multihash.Identifier.to_string (M.get_ident c)),
+            (Multicodec.multihash_to_string (M.get_ident c)),
           `Quick,
           test_encode_and_decode v c ))
       encodings
